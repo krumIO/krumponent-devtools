@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+  <head>
+    <title>krumponent-devtools-marker demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../../paper-button/paper-button.html">
+    <link rel="import" href="../../paper-input/paper-input.html">
+
+    <link rel="import" href="../krumponent-devtools-marker.html">
+    <link rel="import" href="../krumponent-devtools-reporting.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+      krumponent-devtools-marker {
+        --krumponent-marker-background-color: orange;
+        --krumponent-marker-icon-color: blue;
+      }
+
+      .error {
+        --krumponent-marker-background-color: red;
+      }
+
+    </style>
+  </head>
+  <body>
+
+    <div class="vertical-section-container centered">
+      <h3>Basic krumponent-devtools-marker Demo</h3>
+      <demo-snippet>
+        <template>
+
+          <div style="display:inline-block">
+            <paper-input id="btn" style="width:50px">hi</paper-input>
+          </div>
+          <div style="display:inline-block">
+            <krumponent-devtools-marker for="btn" icon="icons:bug-report" position="top">
+              <div>  
+                <a target="_new" href="https://www.youtube.com/watch?v=482tDopNzoc">let us go</a>
+                <h2> HELLO </h2>
+                <p> how are you doing sir </p>
+              </div>
+            </krumponent-devtools-marker>
+          </div>
+
+          <krumponent-devtools-reporting icon="notification:priority-high" position="right">
+            <a target="_new" href="https://www.youtube.com/watch?v=482tDopNzoc">Report Us I dare you</a> 
+          </krumponent-devtools-reporting>
+
+        </template>
+      </demo-snippet>
+    </div>
+
+  </body>
+</html>

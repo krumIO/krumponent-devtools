@@ -1,0 +1,88 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../iron-icons/notifcation-icons.html">
+<link rel="import" href="../iron-icons/editor-icons.html">
+<link rel="import" href="../paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../paper-badge/paper-badge.html">
+
+<!--
+`krumponent-devtools-marker`
+Mark any bugs or known issues
+
+@demo demo/index.html 
+-->
+
+<dom-module id="krumponent-devtools-marker">
+  <template>
+    <style>
+      :host {
+        display: inline-block;
+        --krumponent-marker-icon-color: white;
+        --krumponent-marker-background-color: blue;
+      }
+
+      paper-tooltip {
+        --paper-tooltip-background: white;
+        --paper-tooltip-opacity: 1;
+        --paper-tooltip-text-color: black;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+      }
+
+      paper-badge {
+        --paper-badge-text-color: var(--krumponent-marker-icon-color);
+        --paper-badge-background: var(--krumponent-marker-background-color);
+        position: relative;
+        border-radius: 20px;
+      }
+
+    </style>
+    <div>
+      <paper-badge id="marker" icon="[[icon]]" on-mouseover="handleHover" on-mouseout="handleUnhover" on-tap="handleClick" for="[[for]]"></paper-badge>
+      <paper-tooltip id="tooltip" fit-to-visible-bounds manual-mode for="marker" position="[[position]]">
+        <div>
+          <content></content>
+        </div>
+      </paper-tooltip>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'krumponent-devtools-marker',
+
+      properties: {
+        icon: {
+          type: String,
+          value: "icons:bug-report"
+        },
+        clicked: {
+          type: Boolean,
+          value: false,
+          notify: true
+        },
+        for: {
+          type: String
+        },
+        position: {
+          type: String,
+          value: "top"
+        }
+      },
+      handleHover: function() {
+        if(!this.clicked) {
+          this.$.tooltip.show();
+        }
+      },
+      handleUnhover: function() {
+        if(!this.clicked) {
+          this.$.tooltip.hide();
+        }
+      },
+      handleClick: function() {
+        this.clicked = !this.clicked;
+      }
+    });
+  </script>
+</dom-module>
