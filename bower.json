@@ -2,7 +2,24 @@
   "name": "krumponent-devtools",
   "version": "0.0.1",
   "description": "Mark any bugs or known issues",
-  "main": "krumponent-devtools-marker.html",
+  "main": [
+    "krumponent-devtools-marker.html",
+    "krumponent-devtools-reporting.html",
+    "krumponent-devtools-settings.html"
+  ],
+  "keywords": [
+    "web-components",
+    "web-component",
+    "polymer",
+    "testing",
+    "tracking",
+    "bug"
+  ],
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/KrumIO/krumponent-devtools"
+  },
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",
     "iron-icons": "polymerelements/iron-icons#^1.0.12",
