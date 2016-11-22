@@ -26,7 +26,8 @@
     "paper-tooltip": "polymerelements/paper-tooltip#^1.1.3",
     "paper-badge": "polymerelements/paper-badge#^1.1.4",
     "paper-fab": "polymerelements/paper-fab#^1.2.1",
-    "paper-input": "polymerelements/paper-input#^1.1.21"
+    "paper-input": "polymerelements/paper-input#^1.1.21",
+    "iron-resizable-behavior": "PolymerElements/iron-resizable-behavior#^1.0.5"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",

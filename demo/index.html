@@ -10,6 +10,7 @@
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
     <link rel="import" href="../../paper-button/paper-button.html">
     <link rel="import" href="../../paper-input/paper-input.html">
+    <link rel="import" href="../../paper-badge/paper-badge.html">
 
     <link rel="import" href="../krumponent-devtools-marker.html">
     <link rel="import" href="../krumponent-devtools-reporting.html">
@@ -29,25 +30,41 @@
   <body>
 
     <div class="vertical-section-container centered">
-      <h3>Basic krumponent-devtools-marker Demo</h3>
+      <h3>Mark existing bug report</h3>
       <demo-snippet>
         <template>
 
-          <div style="display:inline-block">
-            <paper-input id="btn" style="width:50px">hi</paper-input>
-          </div>
-          <div style="display:inline-block">
+
+            <paper-input id="btn" style="width:100%" label="this shows on hover"></paper-input>
+
             <krumponent-devtools-marker for="btn" icon="icons:bug-report" position="top">
-              <div>  
+              <div>
                 <a target="_new" href="https://www.youtube.com/watch?v=482tDopNzoc">let us go</a>
                 <h2> HELLO </h2>
                 <p> how are you doing sir </p>
               </div>
             </krumponent-devtools-marker>
-          </div>
+
+            <paper-input id="btntwo" style="width:100%" label="this shows on click"></paper-input>
+
+            <krumponent-devtools-marker for="btntwo" icon="icons:bug-report" position="top" toggles>
+              <div>
+                <a target="_new" href="https://www.youtube.com/watch?v=482tDopNzoc">let us go</a>
+                <h2> HELLO </h2>
+                <p> how are you doing sir </p>
+              </div>
+            </krumponent-devtools-marker>
+            <!-- <paper-badge id="marker" icon="icons:bug-report" on-mouseover="handleHover" on-mouseout="handleUnhover" on-tap="handleClick" for="btn"></paper-badge> -->
+
+        </template>
+      </demo-snippet>
+
+      <h3>Open snippet</h3>
+      <demo-snippet>
+        <template>
 
           <krumponent-devtools-reporting icon="notification:priority-high" position="right">
-            <a target="_new" href="https://www.youtube.com/watch?v=482tDopNzoc">Report Us I dare you</a> 
+            <a target="_new" href="https://www.youtube.com/watch?v=482tDopNzoc">Report Us I dare you</a>
           </krumponent-devtools-reporting>
 
         </template>

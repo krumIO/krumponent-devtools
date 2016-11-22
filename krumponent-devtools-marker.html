@@ -1,7 +1,8 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="../iron-icon/iron-icon.html">
-<link rel="import" href="../iron-icons/notifcation-icons.html">
+<link rel="import" href="../iron-icons/notification-icons.html">
+<link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
 <link rel="import" href="../iron-icons/editor-icons.html">
 <link rel="import" href="../paper-tooltip/paper-tooltip.html">
 <link rel="import" href="../paper-badge/paper-badge.html">
@@ -10,36 +11,45 @@
 `krumponent-devtools-marker`
 Mark any bugs or known issues
 
-@demo demo/index.html 
+@demo demo/index.html
 -->
 
 <dom-module id="krumponent-devtools-marker">
   <template>
     <style>
       :host {
-        display: inline-block;
+
+        display: block;
+        position: absolute;
+        outline: none;
         --krumponent-marker-icon-color: white;
         --krumponent-marker-background-color: blue;
+      }
+      :host([hidden]), [hidden] {
+        display: none !important;
       }
 
       paper-tooltip {
         --paper-tooltip-background: white;
         --paper-tooltip-opacity: 1;
         --paper-tooltip-text-color: black;
+        margin-left:10px;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
       }
 
       paper-badge {
         --paper-badge-text-color: var(--krumponent-marker-icon-color);
         --paper-badge-background: var(--krumponent-marker-background-color);
-        position: relative;
+        --paper-badge-margin-bottom: -10px;
+        /*position: relative;*/
         border-radius: 20px;
+        cursor: pointer;
       }
 
     </style>
     <div>
-      <paper-badge id="marker" icon="[[icon]]" on-mouseover="handleHover" on-mouseout="handleUnhover" on-tap="handleClick" for="[[for]]"></paper-badge>
-      <paper-tooltip id="tooltip" fit-to-visible-bounds manual-mode for="marker" position="[[position]]">
+      <paper-badge id="marker" icon="[[icon]]" on-mouseover="handleHover" on-mouseout="handleUnhover" on-tap="handleClick" offset="-5"></paper-badge>
+      <paper-tooltip id="tooltip" fit-to-visible-bounds manual-mode for="marker" position="[[position]]" animation-delay="0">
         <div>
           <content></content>
         </div>
@@ -68,20 +78,104 @@ Mark any bugs or known issues
         position: {
           type: String,
           value: "top"
+        },
+        toggles: {
+         type: Boolean,
+         value: false
+        },
+        showtip: {
+         type: Boolean,
+         value: false
         }
       },
-      handleHover: function() {
-        if(!this.clicked) {
+      behaviors: [
+        Polymer.IronResizableBehavior
+      ],
+      observers: [
+        '_forChanged(for)',
+        '_tipChanged(showtip)'
+      ],
+      listeners: {
+        'iron-resize': 'updatePosition'
+      },
+      _updateFor: function(thisfor) {
+        console.log(thisfor);
+        this.$.marker.for = "btn";
+        this.$.marker._forChanged();
+        this.updateStyles();
+      },
+      _tipChanged: function(tip){
+        if(tip){
           this.$.tooltip.show();
-        }
-      },
-      handleUnhover: function() {
-        if(!this.clicked) {
+        } else {
           this.$.tooltip.hide();
         }
       },
-      handleClick: function() {
-        this.clicked = !this.clicked;
+      handleHover: function() {
+        if(!this.toggles) {
+          this.showtip = true;
+        }
+      },
+      handleUnhover: function() {
+        if(!this.toggles) {
+          this.showtip = false;
+        }
+      },
+      handleClick: function(e) {
+        e.stopPropagation();
+        if(this.toggles){
+          this.showtip = !(this.showtip);
+        }
+      },
+      attached: function() {
+        this._updateTarget();
+      },
+      _forChanged: function(newfor) {
+        console.log("for changed");
+        // The first time the property is set is before the badge is attached,
+        // which means we're not ready to position it yet.
+        if (!this.isAttached) {
+          return;
+        }
+        this._updateTarget();
+      },
+      _updateTarget: function() {
+        console.log("updateTarget");
+        this._target = this.target;
+        this.async(this.notifyResize, 1);
+      },
+      get target () {
+        console.log("get target");
+        var parentNode = Polymer.dom(this).parentNode;
+        // If the parentNode is a document fragment, then we need to use the host.
+        var ownerRoot = Polymer.dom(this).getOwnerRoot();
+        var target;
+        if (this.for) {
+          target = Polymer.dom(ownerRoot).querySelector('#' + this.for);
+        } else {
+          target = parentNode.nodeType == Node.DOCUMENT_FRAGMENT_NODE ?
+              ownerRoot.host : parentNode;
+        }
+        return target;
+      },
+      attributeChanged: function (name) {
+        if (name === 'hidden') {
+          this.updatePosition();
+        }
+      },
+      updatePosition: function() {
+        // this.fire("iron-resize");
+        this.$.marker.updatePosition();
+        if (!this._target)
+          return;
+        if (!this.offsetParent)
+          return;
+        var parentRect = this.offsetParent.getBoundingClientRect();
+        var targetRect = this._target.getBoundingClientRect();
+        var thisRect = this.getBoundingClientRect();
+        this.style.left = targetRect.left - parentRect.left +
+            (targetRect.width - thisRect.width / 2) + 'px';
+        this.style.top = targetRect.top - parentRect.top + targetRect.height/2 + 'px';
       }
     });
   </script>
