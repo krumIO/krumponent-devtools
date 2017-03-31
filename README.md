@@ -1,3 +1,5 @@
+![Build Status](https://api.travis-ci.org/krumIO/krumponent-devtools.svg?branch=master)
+
 # \<krumponent-devtools\>
 
 Mark any bugs or known issues
